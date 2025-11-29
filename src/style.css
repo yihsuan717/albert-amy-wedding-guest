@@ -1,0 +1,226 @@
+@import 'tailwindcss';
+
+@theme {
+  /* ========= 字體 ========= */
+  --font-sans: 'Noto Sans TC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-serif: 'Noto Serif TC', ui-serif, Georgia, 'Times New Roman', serif;
+
+  /* ========= 香檳金配色 ========= */
+  --color-champagne-50: #fbf9f4;
+  --color-champagne-100: #f4eeda;
+  --color-champagne-200: #e8ddb8;
+  --color-champagne-300: #dcc896;
+  --color-champagne-400: #c5a968;
+  --color-champagne-500: #a88b4d;
+  --color-champagne-600: #8c703d;
+  --color-champagne-800: #5c4826;
+  --color-champagne-900: #3d3019;
+
+  /* ========= box-shadow ========= */
+  --shadow-glass: 0 8px 32px 0 rgba(168, 139, 77, 0.1);
+  --shadow-glass-hover: 0 8px 32px 0 rgba(168, 139, 77, 0.2);
+  --shadow-inner-glow: inset 0 0 20px rgba(255, 255, 255, 0.6);
+
+  /* ========= 動畫 ========= */
+  --animate-float: float 8s ease-in-out infinite;
+  --animate-float-slow: float 12s ease-in-out infinite;
+  --animate-fade-in: fadeIn 0.6s ease-out forwards;
+  --animate-pulse-light: pulseLight 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-shimmer: shimmer 1.5s infinite;
+  --animate-star-burst: starBurst 0.8s ease-out forwards;
+  --animate-button-hover-bg: buttonHoverBg 0.5s ease-out forwards;
+  --animate-cta-pulse: ctaPulse 2.4s ease-in-out infinite;
+  --animate-glass-cluster: glassCluster 7s ease-in-out infinite;
+  --animate-star-cluster: starCluster 7s ease-out infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(10px, -20px);
+    }
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulseLight {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0px rgba(197, 169, 104, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 10px rgba(197, 169, 104, 0);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    30% {
+      transform: translateX(0%);
+      opacity: 0.8;
+    }
+    60% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes glowExpand {
+    0% {
+      transform: scale(0.5);
+      opacity: 0.6;
+      filter: blur(10px);
+    }
+    100% {
+      transform: scale(1.5);
+      opacity: 0;
+      filter: blur(20px);
+    }
+  }
+
+  @keyframes buttonHoverBg {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes ctaPulse {
+    0%,
+    100% {
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.95),
+        0 10px 26px rgba(197, 169, 104, 0.22);
+    }
+    50% {
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 1),
+        0 16px 36px rgba(197, 169, 104, 0.32);
+    }
+  }
+
+  @keyframes glassCluster {
+    /* 起始：安靜微浮 */
+    0% {
+      transform: translateY(0) rotate(0deg);
+    }
+    6% {
+      transform: translateY(-1px) rotate(0.3deg);
+    }
+
+    /* 第一次「碰」 */
+    10% {
+      transform: translateY(-2px) rotate(-4deg);
+    }
+    12% {
+      transform: translateY(1px) rotate(3deg);
+    }
+    15% {
+      transform: translateY(0) rotate(0deg);
+    }
+
+    /* 中間：慢慢小浮動 */
+    40% {
+      transform: translateY(-1px) rotate(0.4deg);
+    }
+    55% {
+      transform: translateY(0px) rotate(-0.2deg);
+    }
+
+    /* 第二次「碰」 */
+    62% {
+      transform: translateY(-2px) rotate(4deg);
+    }
+    64% {
+      transform: translateY(1px) rotate(-3deg);
+    }
+    68% {
+      transform: translateY(0) rotate(0deg);
+    }
+
+    /* 收尾：回到幾乎靜止 */
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+  }
+
+  @keyframes starCluster {
+    /* 默默關燈 */
+    0%,
+    7% {
+      opacity: 0;
+      transform: scale(0.4);
+    }
+
+    /* 第一次碰撞星光 */
+    11% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    16% {
+      opacity: 0;
+      transform: scale(1.35);
+    }
+
+    /* 再回到暗 */
+    40%,
+    57% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+
+    /* 第二次碰撞星光 */
+    63% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    69% {
+      opacity: 0;
+      transform: scale(1.35);
+    }
+
+    /* 結尾：慢慢暗下去 */
+    100% {
+      opacity: 0;
+      transform: scale(0.4);
+    }
+  }
+}
+
+/* 全域字體 + 底色 */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-champagne-50);
+}
+
+/* 捲軸 */
+.custom-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: rgba(197, 169, 104, 0.3);
+  border-radius: 10px;
+}

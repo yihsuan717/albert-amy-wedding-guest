@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Albert &amp; Amy Wedding Seating</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link href="/src/style.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      window.__PRELOAD_DURATION__ = 1800 // 這裡改一個數字，全站同步
+      window.__preloaderStart = performance.now()
+    </script>
+
+    <!-- 首屏靜態樣式 -->
+    <style>
+      :root {
+        --champagne-50: #fbf9f4;
+        --champagne-100: #f4eeda;
+        --champagne-200: #e8ddb8;
+        --champagne-300: #dcc896;
+        --champagne-400: #c5a968;
+        --champagne-600: #8c703d;
+        --preloader-duration: 2200ms;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: radial-gradient(
+          circle at top,
+          #fffdf8 0,
+          var(--champagne-50) 40%,
+          #f5ebdd 100%
+        );
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          sans-serif;
+        color: #444;
+      }
+
+      /* 整個 preloader 區塊（不在 #app 裡） */
+      #preloader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        pointer-events: auto;
+        background: radial-gradient(
+          circle at top,
+          #fffdf8 0,
+          var(--champagne-50) 40%,
+          #f5ebdd 100%
+        );
+        transition:
+          opacity 0.8s ease-out,
+          transform 0.8s ease-out,
+          filter 0.8s ease-out;
+      }
+
+      /* Vue 掛好後淡出用的 class（main.ts 會加上） */
+      #preloader.preloader--fadeout {
+        opacity: 0;
+        transform: scale(1.03);
+        filter: blur(6px);
+        pointer-events: none;
+      }
+
+      .pre-card {
+        width: 100%;
+        max-width: 360px;
+        border-radius: 28px;
+        border: 1px solid #ffffffcc;
+        background: radial-gradient(circle at top, #fffdfb, #f7efe4);
+        box-shadow:
+          0 20px 60px rgba(168, 139, 77, 0.22),
+          0 0 0 1px rgba(255, 255, 255, 0.7);
+        padding: 26px 24px 20px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .pre-card::before {
+        content: '';
+        position: absolute;
+        inset: 14px;
+        border-radius: 24px;
+        border: 1px solid rgba(232, 221, 184, 0.5);
+      }
+
+      /* 卡片背後的大光暈 */
+      .pre-glow-ring {
+        position: absolute;
+        inset: -40%;
+        background: radial-gradient(circle, rgba(232, 221, 184, 0.3), transparent 70%);
+        opacity: 0.7;
+        animation: pre-glow 2.4s ease-in-out infinite alternate;
+      }
+
+      @keyframes pre-glow {
+        0% {
+          transform: scale(0.95);
+          opacity: 0.4;
+        }
+        100% {
+          transform: scale(1.05);
+          opacity: 0.9;
+        }
+      }
+
+      /* --- 香檳杯 + 敲擊 + 星星 --- */
+
+      .pre-icon-wrap {
+        position: relative;
+        margin-bottom: 10px;
+      }
+
+      .pre-icon-circle {
+        position: relative;
+        width: 72px;
+        height: 72px;
+        margin: 0 auto;
+        border-radius: 999px;
+        background: radial-gradient(circle at 30% 0%, #ffffff, #f2e4ce);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 25px rgba(197, 169, 104, 0.25);
+        overflow: visible;
+      }
+
+      /* 香檳杯本體：浮上來 → 敲杯 → 回穩 */
+      .pre-icon-emoji {
+        font-size: 32px;
+        transform-origin: 50% 100%;
+        animation: pre-glass-clink 1.8s ease-out infinite;
+      }
+
+      @keyframes pre-glass-clink {
+        0% {
+          transform: translateY(8px) scale(0.9) rotate(0deg);
+          opacity: 0;
+        }
+        18% {
+          transform: translateY(0) scale(1.05) rotate(-8deg);
+          opacity: 1;
+        }
+        30% {
+          transform: translateY(0) scale(1.05) rotate(5deg);
+        }
+        40% {
+          transform: translateY(0) scale(1) rotate(0deg);
+        }
+        100% {
+          transform: translateY(0) scale(1) rotate(0deg);
+        }
+      }
+
+      /* 敲擊瞬間的光圈：從杯子外圍擴散出去 */
+      .pre-clink-ring {
+        position: absolute;
+        inset: -6px;
+        border-radius: 999px;
+        border: 1px solid rgba(232, 221, 184, 0.8);
+        box-shadow: 0 0 0 0 rgba(232, 221, 184, 0.7);
+        opacity: 0;
+        animation: pre-clink-ring 1.8s ease-out infinite;
+      }
+
+      @keyframes pre-clink-ring {
+        0%,
+        20% {
+          opacity: 0;
+          transform: scale(0.9);
+          box-shadow: 0 0 0 0 rgba(232, 221, 184, 0.7);
+        }
+        30% {
+          opacity: 1;
+          transform: scale(1);
+          box-shadow: 0 0 0 0 rgba(232, 221, 184, 0.7);
+        }
+        60% {
+          opacity: 0;
+          transform: scale(1.5);
+          box-shadow: 0 0 0 14px rgba(232, 221, 184, 0);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(1.5);
+          box-shadow: 0 0 0 14px rgba(232, 221, 184, 0);
+        }
+      }
+
+      /* 星星：圍繞在杯子周邊，敲完之後一圈星光散開 */
+      .pre-star {
+        position: absolute;
+        font-size: 11px;
+        color: rgba(232, 221, 184, 0.98);
+        filter: blur(0.1px);
+        opacity: 0;
+        animation: pre-star-burst 1.8s ease-out infinite;
+      }
+
+      /* 五個星星繞著杯子附近排一圈，比較顯眼 */
+      .pre-star.s1 {
+        top: -4px;
+        left: calc(50% - 26px);
+        animation-delay: 0.26s;
+      }
+      .pre-star.s2 {
+        top: -10px;
+        left: calc(50% + 10px);
+        font-size: 10px;
+        animation-delay: 0.3s;
+      }
+      .pre-star.s3 {
+        top: 18px;
+        left: calc(50% + 24px);
+        font-size: 9px;
+        animation-delay: 0.34s;
+      }
+      .pre-star.s4 {
+        top: 32px;
+        left: calc(50% - 26px);
+        font-size: 9px;
+        animation-delay: 0.38s;
+      }
+      .pre-star.s5 {
+        top: 6px;
+        left: calc(50% - 40px);
+        font-size: 10px;
+        animation-delay: 0.42s;
+      }
+
+      @keyframes pre-star-burst {
+        0%,
+        25% {
+          opacity: 0;
+          transform: translateY(6px) scale(0.7);
+          filter: blur(2px);
+        }
+        40% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          filter: blur(0);
+        }
+        70% {
+          opacity: 0.9;
+          transform: translateY(-2px) scale(1.15);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-4px) scale(1.35);
+          filter: blur(3px);
+        }
+      }
+
+      /* --- 文案區 --- */
+
+      .pre-title-sub {
+        margin-top: 8px;
+        font-size: 12px;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: rgba(140, 112, 61, 0.85);
+      }
+
+      .pre-title-main {
+        margin: 6px 0 0;
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: #5c4826;
+      }
+
+      .pre-text {
+        margin-top: 8px;
+        font-size: 12px;
+        color: #777;
+      }
+
+      /* --- 進度條 --- */
+
+      .pre-progress-wrap {
+        margin-top: 18px;
+        width: 72%;
+        height: 8px;
+        border-radius: 999px;
+        margin-left: auto;
+        margin-right: auto;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: inset 0 0 0 1px rgba(232, 221, 184, 0.4);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .pre-progress-bar {
+        position: absolute;
+        inset: 0;
+        transform-origin: left;
+        background: linear-gradient(
+          90deg,
+          rgba(232, 221, 184, 0.3),
+          rgba(197, 169, 104, 0.9),
+          rgba(232, 221, 184, 0.6)
+        );
+        animation: pre-progress var(--preloader-duration) ease-out forwards;
+      }
+
+      @keyframes pre-progress {
+        0% {
+          transform: scaleX(0);
+        }
+        60% {
+          transform: scaleX(1);
+        }
+        100% {
+          transform: scaleX(1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="preloader">
+      <div class="pre-card">
+        <div class="pre-glow-ring"></div>
+
+        <div class="pre-icon-wrap">
+          <div class="pre-icon-circle">
+            <!-- 香檳杯 -->
+            <span class="pre-icon-emoji">🥂</span>
+            <!-- 敲擊後擴散的光圈 -->
+            <span class="pre-clink-ring"></span>
+          </div>
+
+          <!-- 圍繞在杯子周邊的一圈星星 -->
+          <span class="pre-star s1">✦</span>
+          <span class="pre-star s2">✦</span>
+          <span class="pre-star s3">✦</span>
+          <span class="pre-star s4">✦</span>
+          <span class="pre-star s5">✦</span>
+        </div>
+
+        <div>
+          <div class="pre-title-sub">WEDDING SEATING</div>
+          <div class="pre-title-main">Albert &amp; Amy</div>
+          <div class="pre-text">正在為您開啟專屬席次…</div>
+        </div>
+
+        <div class="pre-progress-wrap">
+          <div class="pre-progress-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="app"></div>
+
+    <script>
+      ;(function () {
+        var d = window.__PRELOAD_DURATION__ || 1800
+        document.documentElement.style.setProperty('--preloader-duration', d + 'ms')
+      })()
+    </script>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
