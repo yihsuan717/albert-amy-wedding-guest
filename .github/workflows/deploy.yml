@@ -35,6 +35,8 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
+        env:
+          VITE_SECRET_KEY: ${{ secrets.VITE_SECRET_KEY }}
         run: pnpm run build
 
       - name: Upload artifact
