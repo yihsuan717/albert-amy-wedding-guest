@@ -35,15 +35,6 @@
             </svg>
           </button>
         </div>
-        <!-- 關閉按鈕 -->
-        <!-- <button type="button" class="absolute top-5 right-5 w-10 h-10 rounded-full
-                 bg-white/85 backdrop-blur-md shadow
-                 flex items-center justify-center z-50
-                 hover:bg-white active:scale-95 transition" @click="handleClose">
-          <svg class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="none">
-            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          </svg>
-        </button> -->
 
         <!-- Header：名字 ＋ TableNo -->
         <header class="relative px-6 pt-8 pb-4 text-center shrink-0 border-b border-champagne-100/70">

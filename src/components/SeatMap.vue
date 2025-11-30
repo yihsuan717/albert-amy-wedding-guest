@@ -1,7 +1,7 @@
 <!-- src/components/SeatMap.vue -->
 <template>
   <div ref="mapRoot"
-    class="seatmap-root mx-auto bg-white/90 backdrop-blur-xl rounded-2xl border border-champagne-100/80 shadow-[0_18px_40px_rgba(0,0,0,0.08)] px-5 pt-5 pb-4">
+    class="seatmap-root mx-auto bg-white/90 rounded-2xl border border-champagne-100/80 shadow-[0_18px_40px_rgba(0,0,0,0.08)] px-5 pt-5 pb-4">
     <!-- 舞台 / 主桌 -->
     <div class="mb-4 flex flex-col items-center gap-2">
       <div class="stage-bar">舞台</div>
@@ -106,8 +106,6 @@ watch(
 
 <style scoped>
 .seatmap-root {
-  transform-origin: top center;
-  transform: scale(0.92);
   background: rgba(255, 255, 255, 0.98);
   box-shadow:
     0 14px 32px rgba(0, 0, 0, 0.08),

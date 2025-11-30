@@ -60,28 +60,8 @@
       </p>
 
       <!-- CTA 按鈕 -->
-      <button type="button" class="group relative w-full py-3.5 px-4 rounded-2xl
-               bg-gradient-to-r from-[#f7efe4] via-[#e8ddb8] to-[#d5bf8a]
-               text-[#5c4826] text-[15px] font-semibold tracking-wide
-               border border-white/70 overflow-hidden
-               transition-transform duration-150 ease-out
-               active:scale-[0.97]
-               shadow-[0_10px_26px_rgba(197,169,104,0.22)]
-               animate-cta-pulse" @click="goSideSelect">
-        <span class="relative z-20">開始查詢座位</span>
-
-        <!-- 固定玻璃高光 -->
-        <span class="pointer-events-none absolute inset-0
-                 bg-[radial-gradient(circle_at_0%_0%,rgba(255,255,255,0.9),transparent_55%)]
-                 opacity-70 mix-blend-screen z-10" />
-
-        <!-- hover / tap 刷光 -->
-        <span class="pointer-events-none absolute inset-0
-                 bg-gradient-to-r from-white/0 via-white/80 to-white/0
-                 translate-x-[-130%]
-                 group-hover:translate-x-[130%]
-                 transition-transform duration-900 ease-out
-                 mix-blend-screen z-10" />
+      <button type="button" class="cta-btn" @click="goSideSelect">
+        <span class="cta-label">開始查詢座位</span>
       </button>
 
       <p class="text-xs text-gray-500 mt-4 tracking-wider">
@@ -100,3 +80,115 @@ const goSideSelect = () => {
   router.push({ name: 'side-select' })
 }
 </script>
+<style scoped>
+.cta-btn {
+  position: relative;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 1rem;
+  overflow: hidden;
+
+  /* 霧面淡香檳金漸層 */
+  background: linear-gradient(180deg,
+      #f9f4ea 0%,
+      #f3e4c6 45%,
+      #e6cfaa 100%);
+
+  color: #5b4524;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+
+  border: 1px solid rgba(255, 252, 245, 0.8);
+  box-shadow:
+    0 8px 20px rgba(187, 152, 92, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.7);
+
+  /* 按下去的手感 */
+  transition:
+    transform 0.16s ease-out,
+    box-shadow 0.16s ease-out;
+}
+
+.cta-btn:active {
+  transform: scale(0.97) translateY(1px);
+  box-shadow:
+    0 4px 12px rgba(160, 130, 76, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.7);
+}
+
+/* 文字浮在所有特效上方 */
+.cta-label {
+  position: relative;
+  z-index: 2;
+}
+
+/* 邊線呼吸光暈（淡淡一圈） */
+.cta-btn::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 0 0 rgba(214, 182, 120, 0.0);
+  z-index: 1;
+  pointer-events: none;
+  animation: ctaBorderGlow 3.1s ease-in-out infinite;
+}
+
+/* 偶爾刷光：窄光條從左到右掃過一次，剩下時間在畫面外休息 */
+.cta-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.88),
+      transparent);
+  transform: translateX(-130%);
+  z-index: 1;
+  pointer-events: none;
+  animation: ctaSweep 4.6s ease-in-out infinite;
+}
+
+/* 邊線呼吸 keyframes */
+@keyframes ctaBorderGlow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(214, 182, 120, 0.0);
+  }
+
+  40% {
+    box-shadow: 0 0 0 5px rgba(214, 182, 120, 0.26);
+  }
+}
+
+/* 刷光 keyframes：只有 0%~40% 在動，其餘時間停在外面等下一輪 */
+@keyframes ctaSweep {
+  0% {
+    transform: translateX(-130%);
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 1;
+  }
+
+  32% {
+    transform: translateX(130%);
+    opacity: 1;
+  }
+
+  40% {
+    transform: translateX(130%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(130%);
+    opacity: 0;
+  }
+}
+</style>
