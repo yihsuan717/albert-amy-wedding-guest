@@ -13,7 +13,7 @@
         您是哪一方的<br />尊貴親友呢？
       </h1>
       <p class="mt-4 text-gray-600 leading-relaxed text-[14px]">
-        請先選擇與新人較親近的一方，<br>
+        請先選擇與您較親近的一方，<br>
         之後仍可切換查看另一方名單。
       </p>
     </div>
@@ -23,7 +23,7 @@
       @click="goSide('albert')">
       <p class="text-champagne-600 uppercase text-[12px] tracking-[0.3em] mb-1">GROOM SIDE</p>
       <h2 class="text-[22px] font-bold text-gray-900 mb-2">男方親友</h2>
-      <p class="text-gray-600 text-[14px]">和 Albert 關係較親近的親友，請選這一方。</p>
+      <p class="text-gray-600 text-[14px]">與 Albert 較為親近的親友，請選擇此側。</p>
     </div>
 
     <!-- 女方 -->
@@ -31,11 +31,11 @@
       @click="goSide('amy')">
       <p class="text-champagne-600 uppercase text-[12px] tracking-[0.3em] mb-1">BRIDE SIDE</p>
       <h2 class="text-[22px] font-bold text-gray-900 mb-2">女方親友</h2>
-      <p class="text-gray-600 text-[14px]">和 Amy 關係較親近的親友，請選這一方。</p>
+      <p class="text-gray-600 text-[14px]">與 Amy 較為親近的親友，請選擇此側。</p>
     </div>
 
     <p class="text-center text-gray-600/80 text-[13px] mt-4">
-      之後在名單頁面也可以隨時返回首頁，重新選擇親友方。
+      您之後仍可於名單頁面隨時切換查看另一方。
     </p>
   </div>
 </template>
