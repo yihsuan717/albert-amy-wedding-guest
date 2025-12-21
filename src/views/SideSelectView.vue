@@ -1,3 +1,4 @@
+// src/views/SideSelectView.vue
 <template>
   <div class="h-full flex flex-col">
     <!-- 麵包屑：固定兩層 -->
@@ -6,36 +7,78 @@
       { name: '選擇親友方', step: 'side-select' },
     ]" @navigate="handleBreadcrumb" />
 
-    <!-- STEP 標題區 -->
-    <div class="text-center mt-4 mb-8">
-      <p class="tracking-[0.4em] text-[13px] text-champagne-600 mb-3">STEP 01</p>
-      <h1 class="text-[30px] leading-snug font-serif font-bold text-gray-900">
-        您是哪一方的<br />尊貴親友呢？
+    <!-- STEP 標題區（避免硬斷行，句子完整性） -->
+    <div class="text-center mt-4 mb-8 px-2">
+      <p class="typo-brand-tag mb-3 whitespace-nowrap">
+        STEP&nbsp;01
+      </p>
+
+      <h1 class="typo-step-title text-balance">
+        請選擇您所屬的親友方
       </h1>
-      <p class="mt-4 text-gray-600 leading-relaxed text-[14px]">
-        請先選擇與您較親近的一方，<br>
-        之後仍可切換查看另一方名單。
+
+      <p class="mt-4 typo-body text-pretty">
+        稍後仍可切換查看另一方名單。
       </p>
     </div>
 
-    <!-- 男方 -->
-    <div class="mx-4 mb-6 p-5 rounded-3xl bg-white/90 backdrop-blur-xl shadow-soft border border-white/70"
-      @click="goSide('albert')">
-      <p class="text-champagne-600 uppercase text-[12px] tracking-[0.3em] mb-1">GROOM SIDE</p>
-      <h2 class="text-[22px] font-bold text-gray-900 mb-2">男方親友</h2>
-      <p class="text-gray-600 text-[14px]">與 Albert 較為親近的親友，請選擇此側。</p>
+    <!-- iOS-ish 清單卡：用 button + focus + active 手感 -->
+    <div class="mx-4 space-y-4">
+      <!-- 男方 -->
+      <button type="button" class="side-card group" @click="goSide('albert')">
+        <div class="side-card-bg" />
+
+        <div class="relative z-10 w-full">
+          <p class="typo-brand-tag mb-1 whitespace-nowrap">
+            GROOM&nbsp;SIDE
+          </p>
+
+          <div class="flex items-center justify-between gap-4">
+            <h2 class="typo-card-title">
+              男方親友
+            </h2>
+
+            <svg class="w-5 h-5 text-champagne-400 transition-transform duration-300 group-hover:translate-x-0.5"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+
+          <p class="typo-body mt-2 text-pretty">
+            與 Albert 較為親近的親友
+          </p>
+        </div>
+      </button>
+
+      <!-- 女方 -->
+      <button type="button" class="side-card group" @click="goSide('amy')">
+        <div class="side-card-bg" />
+
+        <div class="relative z-10 w-full">
+          <p class="typo-brand-tag mb-1 whitespace-nowrap">
+            BRIDE&nbsp;SIDE
+          </p>
+
+          <div class="flex items-center justify-between gap-4">
+            <h2 class="typo-card-title">
+              女方親友
+            </h2>
+
+            <svg class="w-5 h-5 text-champagne-400 transition-transform duration-300 group-hover:translate-x-0.5"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+
+          <p class="typo-body mt-2 text-pretty">
+            與 Amy 較為親近的親友
+          </p>
+        </div>
+      </button>
     </div>
 
-    <!-- 女方 -->
-    <div class="mx-4 mb-6 p-5 rounded-3xl bg-white/90 backdrop-blur-xl shadow-soft border border-white/70"
-      @click="goSide('amy')">
-      <p class="text-champagne-600 uppercase text-[12px] tracking-[0.3em] mb-1">BRIDE SIDE</p>
-      <h2 class="text-[22px] font-bold text-gray-900 mb-2">女方親友</h2>
-      <p class="text-gray-600 text-[14px]">與 Amy 較為親近的親友，請選擇此側。</p>
-    </div>
-
-    <p class="text-center text-gray-600/80 text-[13px] mt-4">
-      您之後仍可於名單頁面隨時切換查看另一方。
+    <p class="text-center typo-body-muted mt-6 px-6 text-pretty">
+      可隨時切換查看另一方。
     </p>
   </div>
 </template>
@@ -61,7 +104,54 @@ const handleBreadcrumb = (target: { step: string }) => {
 </script>
 
 <style scoped>
-.shadow-soft {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+/* 卡片：維持你原本色系 + 更像 iOS 的層次與互動 */
+.side-card {
+  position: relative;
+  width: 100%;
+  text-align: left;
+  padding: 1.25rem;
+  border-radius: 1.5rem;
+
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.70);
+  box-shadow: var(--shadow-glass);
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.side-card:hover {
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow: var(--shadow-glass-hover);
+  transform: translateY(-2px);
+}
+
+.side-card:active {
+  transform: scale(0.985) translateY(0px);
+}
+
+/* 鍵盤可見焦點 */
+.side-card:focus-visible {
+  outline: none;
+  box-shadow:
+    var(--shadow-glass-hover),
+    0 0 0 4px rgba(214, 182, 120, 0.22);
+}
+
+/* 內層柔光：非常淡，不破壞香檳感 */
+.side-card-bg {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(120px 80px at 18% 22%, rgba(246, 232, 203, 0.55), transparent 60%),
+    radial-gradient(140px 90px at 88% 78%, rgba(238, 214, 170, 0.38), transparent 62%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0.12));
+  opacity: 0.9;
 }
 </style>

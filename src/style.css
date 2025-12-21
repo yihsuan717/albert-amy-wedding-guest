@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 
+/* =========================
+ * 主題設定：字體 / 顏色 / 動畫
+ * ========================= */
 @theme {
   /* ========= 字體 ========= */
   --font-sans: 'Noto Sans TC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -16,12 +19,23 @@
   --color-champagne-800: #5c4826;
   --color-champagne-900: #3d3019;
 
-  /* ========= box-shadow ========= */
+  /* ========= 文字墨色（深色系） ========= */
+  --color-ink-900: #3a2f1f; /* 主標題、姓名（暖黑） */
+  --color-ink-800: #4a3d29; /* 次主標 */
+  --color-ink-700: #5a4a32; /* 內文主色 */
+  --color-ink-500: #7a6a52; /* 次要說明 */
+  --color-ink-300: #d8d0c3; /* 分隔線、淡灰（偏暖） */
+
+  /* ========= 功能性柔色，可之後需要再用 ========= */
+  --color-success-soft: #e3f3e8;
+  --color-danger-soft: #fce8e6;
+
+  /* ========= 陰影 ========= */
   --shadow-glass: 0 8px 32px 0 rgba(168, 139, 77, 0.1);
   --shadow-glass-hover: 0 8px 32px 0 rgba(168, 139, 77, 0.2);
   --shadow-inner-glow: inset 0 0 20px rgba(255, 255, 255, 0.6);
 
-  /* ========= 動畫 ========= */
+  /* ========= 動畫變數 ========= */
   --animate-float: float 8s ease-in-out infinite;
   --animate-float-slow: float 12s ease-in-out infinite;
   --animate-fade-in: fadeIn 0.6s ease-out forwards;
@@ -33,6 +47,7 @@
   --animate-glass-cluster: glassCluster 7s ease-in-out infinite;
   --animate-star-cluster: starCluster 7s ease-out infinite;
 
+  /* ========= Keyframes ========= */
   @keyframes float {
     0%,
     100% {
@@ -128,7 +143,7 @@
       transform: translateY(-1px) rotate(0.3deg);
     }
 
-    /* 第一次「碰」 */
+    /* 第一次碰杯 */
     10% {
       transform: translateY(-2px) rotate(-4deg);
     }
@@ -139,7 +154,7 @@
       transform: translateY(0) rotate(0deg);
     }
 
-    /* 中間：慢慢小浮動 */
+    /* 中段：小幅漂浮 */
     40% {
       transform: translateY(-1px) rotate(0.4deg);
     }
@@ -147,7 +162,7 @@
       transform: translateY(0px) rotate(-0.2deg);
     }
 
-    /* 第二次「碰」 */
+    /* 第二次碰杯 */
     62% {
       transform: translateY(-2px) rotate(4deg);
     }
@@ -158,7 +173,7 @@
       transform: translateY(0) rotate(0deg);
     }
 
-    /* 收尾：回到幾乎靜止 */
+    /* 收尾：回到靜止 */
     100% {
       transform: translateY(0) rotate(0deg);
     }
@@ -172,7 +187,7 @@
       transform: scale(0.4);
     }
 
-    /* 第一次碰撞星光 */
+    /* 第一次碰杯星光 */
     11% {
       opacity: 1;
       transform: scale(1);
@@ -182,14 +197,14 @@
       transform: scale(1.35);
     }
 
-    /* 再回到暗 */
+    /* 回到暗處 */
     40%,
     57% {
       opacity: 0;
       transform: scale(0.5);
     }
 
-    /* 第二次碰撞星光 */
+    /* 第二次星光 */
     63% {
       opacity: 1;
       transform: scale(1);
@@ -207,13 +222,85 @@
   }
 }
 
-/* 全域字體 + 底色 */
-body {
-  font-family: var(--font-sans);
-  background-color: var(--color-champagne-50);
+/* =========================
+ * Base：全站字體 / 背景
+ * ========================= */
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-champagne-50);
+    color: var(--color-ink-700);
+  }
 }
 
-/* 捲軸 */
+/* =========================
+ * Utilities：排版樣式（全站共用）
+ * ========================= */
+@layer utilities {
+  /* 英文品牌小標：WEDDING SEATING / TABLE NO. / STEP 01 */
+  .typo-brand-tag {
+    @apply font-serif uppercase tracking-[0.35em] text-[11px] leading-[1.4] text-champagne-500;
+  }
+
+  /* 首頁新人姓名 / 最大主標 */
+  .typo-hero-names {
+    @apply font-serif text-[36px] md:text-[40px] leading-[1.15] tracking-[0.06em] text-ink-900;
+  }
+
+  /* STEP 問句大標 */
+  .typo-step-title {
+    @apply font-serif text-[26px] leading-[1.35] text-ink-900;
+  }
+
+  /* Section 標題（請選擇親友關係類別） */
+  .typo-section-title {
+    @apply font-serif text-[22px] leading-[1.4] text-ink-900;
+  }
+
+  /* 卡片主標（男方親友 / 女方親友 / 各群組名稱） */
+  .typo-card-title {
+    @apply font-sans text-[18px] leading-[1.4] font-medium text-ink-900;
+  }
+
+  /* 一般內文主文案 */
+  .typo-body {
+    @apply font-sans text-[15px] leading-[1.7] text-ink-800;
+  }
+
+  /* 次要說明 / 備註 / 底部小字 */
+  .typo-body-muted {
+    @apply font-sans text-[13px] leading-[1.7] text-ink-500;
+  }
+
+  /* breadcrumb */
+  .typo-breadcrumb {
+    @apply font-sans text-[13px] leading-[1.6] text-ink-500;
+  }
+
+  /* 名單卡片 – 姓名 */
+  .typo-guest-name {
+    @apply font-sans text-[16px] leading-[1.4] font-medium text-ink-900;
+  }
+
+  /* 名單卡片 – 桌號（5-6 等） */
+  .typo-table-no {
+    @apply font-serif text-[20px] leading-[1.4] text-champagne-600;
+  }
+
+  /* 小 badge（4人、26人…） */
+  .typo-badge {
+    @apply font-sans text-[12px] leading-[1.4] text-champagne-600;
+  }
+
+  /* CTA button 文字 */
+  .typo-cta {
+    @apply font-sans text-[16px] leading-[1.4] font-medium tracking-[0.08em] text-ink-900;
+  }
+}
+
+/* =========================
+ * 捲軸樣式（選單頁等可加 class="custom-scroll"）
+ * ========================= */
 .custom-scroll::-webkit-scrollbar {
   width: 4px;
 }

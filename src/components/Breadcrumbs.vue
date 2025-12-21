@@ -1,8 +1,7 @@
 <!-- src/components/Breadcrumbs.vue -->
 <template>
   <nav v-if="path.length" class="px-4 pt-2">
-    <div class="relative flex items-center gap-1 pb-2 text-[13px] font-medium
-             text-champagne-600">
+    <div class="relative flex items-center gap-1 pb-2 typo-breadcrumb text-champagne-600">
       <!-- 底部香檳金光影線 -->
       <div class="pointer-events-none absolute inset-x-0 bottom-0 h-[1px]
                bg-gradient-to-r from-transparent via-champagne-200 to-transparent
@@ -12,7 +11,7 @@
       <button v-for="(item, index) in path" :key="item.name + index" type="button"
         class="inline-flex items-center transition-colors duration-200" :class="[
           index === path.length - 1
-            ? 'text-champagne-800 cursor-default'
+            ? 'text-champagne-700 cursor-default'
             : 'text-champagne-500 hover:text-champagne-800 cursor-pointer'
         ]" @click="handleClick(item, index)">
         <span class="truncate max-w-[96px]">{{ item.name }}</span>

@@ -1,78 +1,130 @@
+<!-- src/components/GuestList.vue -->
 <template>
   <div class="space-y-4 animate-[theme(animate.fade-in)]">
-
+    <!-- 🔍 全域搜尋結果 -->
     <div v-if="searchQuery" class="space-y-3">
       <div v-if="filteredAllPeople.length === 0" class="text-center py-12">
-        <div class="text-4xl mb-2">🕊️</div>
-        <p class="text-champagne-800/60">找不到這位賓客，試試其他關鍵字？</p>
+        <div class="text-3xl mb-2">🕊️</div>
+        <p class="typo-body-muted text-champagne-800/70">
+          找不到符合條件的賓客。
+        </p>
       </div>
 
-      <div v-for="(person, idx) in filteredAllPeople" :key="idx" @click="$emit('open-detail', person)"
-        class="relative overflow-hidden group bg-white/50 backdrop-blur-md border border-white/70 p-4 rounded-xl shadow-sm flex justify-between items-center cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-[theme(shadow.glass-hover)] hover:bg-white/70
-               after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-r after:from-transparent after:via-white/70 after:to-transparent after:opacity-0 after:animate-shimmer group-hover:after:opacity-100">
-        <div>
-          <div class="font-bold text-gray-800 text-lg group-hover:text-champagne-800 transition-colors relative z-10">{{
-            person.name }}</div>
-          <div class="text-xs text-gray-500 mt-0.5 flex items-center gap-1 relative z-10">
-            <span class="px-1.5 py-0.5 bg-champagne-100/90 rounded text-champagne-800 border border-champagne-200/50">{{
-              person.sideName }}</span>
-            <span>{{ person.category }}</span>
-          </div>
-        </div>
-        <div class="flex flex-col items-end relative z-10">
-          <span class="text-[10px] text-gray-400 uppercase tracking-wide">Table</span>
-          <span class="text-2xl font-serif font-bold text-champagne-600">{{ person.seatGroup }}</span>
-        </div>
-      </div>
-    </div>
+      <div class="glass-list mx-4">
+        <button v-for="(person, idx) in filteredAllPeople" :key="idx" type="button" class="glass-row group"
+          @click="$emit('open-detail', person)">
+          <div class="glass-refraction" />
+          <div class="glass-sheen" />
 
-    <div v-else-if="currentStep === 'category-list'" class="space-y-3 py-3">
-      <h2 class="text-3xl font-serif text-champagne-800 text-center mb-6 font-medium">請選擇親友關係類別</h2>
-      <div v-for="(cat, idx) in currentCategories" :key="idx" class="overflow-hidden">
-        <button @click="$emit('select-category', cat.title)" class="w-full bg-white/40 backdrop-blur-sm hover:bg-white/60 border border-white/70 p-4 rounded-2xl flex justify-between items-center transition-all duration-300 shadow-sm group
-                 hover:shadow-[theme(shadow.glass-hover)] hover:scale-[1.02] hover:-translate-y-0.5">
-          <div class="flex items-center gap-3 relative z-10">
-            <div class="h-2 w-2 rounded-full bg-champagne-400 group-hover:scale-150 transition-transform"></div>
-            <span class="font-medium text-lg text-gray-700">{{ cat.title }}</span>
-            <span
-              class="bg-champagne-100/80 text-champagne-800 text-[10px] px-2 py-0.5 rounded-full border border-champagne-200">{{
-                cat.count }}人</span>
+          <div class="min-w-0 flex-1 relative z-10">
+            <div class="typo-guest-name text-ink-900 transition-colors truncate">
+              {{ person.name }}
+            </div>
+            <div class="mt-1 text-[11px] text-champagne-700/90 truncate">
+              {{ person.sideName }} · {{ person.category }}
+            </div>
           </div>
-          <svg class="w-5 h-5 text-champagne-400 transform transition-transform duration-300 group-hover:rotate-90"
-            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg>
+
+          <div class="shrink-0 relative z-10 flex items-baseline gap-2">
+            <span class="typo-body-muted uppercase text-[10px] tracking-[0.26em]">
+              TABLE
+            </span>
+            <span class="font-serif font-bold text-[22px] leading-none text-champagne-600">
+              {{ person.seatGroup }}
+            </span>
+            <svg class="ml-1 w-4 h-4 text-champagne-400/90 transition-transform duration-300" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
         </button>
       </div>
     </div>
 
-    <div v-else-if="currentStep === 'guest-list' && selectedCategory" class="space-y-3 py-3">
-      <h2 class="text-2xl font-serif text-champagne-800 text-center mb-6">
-        <span class="block text-xl">{{ selectedCategory }} 名單</span>
-        <span class="block text-sm text-gray-500 mt-1">點擊查看座位</span>
+    <!-- 📂 分類列表 -->
+    <div v-else-if="currentStep === 'category-list'" class="space-y-3 py-3">
+      <h2 class="typo-section-title text-center mb-6">
+        請選擇親友分類
       </h2>
-      <div class="grid grid-cols-2 gap-3">
-        <div v-for="(person, pIdx) in currentGuests" :key="pIdx"
-          class="relative overflow-hidden bg-white/70 p-3 rounded-xl border border-white/70 shadow-sm flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-[theme(shadow.glass)] hover:-translate-y-1 transition-all duration-300
-                 after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-r after:from-transparent after:via-white/70 after:to-transparent after:opacity-0 after:animate-shimmer group-hover:after:opacity-100"
-          @click="$emit('open-detail', person)">
-          <div class="absolute -right-4 -top-4 w-12 h-12 bg-champagne-100 rounded-full blur-md opacity-50"></div>
-          <span class="font-medium text-gray-800 relative z-10">{{ person.name }}</span>
-          <div class="mt-1 w-full border-t border-champagne-200/50 pt-1 relative z-10">
-            <span class="font-serif font-bold text-xl text-champagne-600">{{ person.seatGroup }}</span>
+
+      <div class="glass-list mx-4">
+        <button v-for="(cat, idx) in currentCategories" :key="idx" type="button" class="glass-row group"
+          @click="$emit('select-category', cat.title)">
+          <div class="glass-refraction" />
+          <div class="glass-sheen" />
+
+          <!-- ✅ 不要點點，改成左側導引線點綴（由 glass-row::before 負責） -->
+          <div class="min-w-0 flex-1 relative z-10 flex items-center gap-3">
+            <span class="typo-card-title text-ink-900 truncate">
+              {{ cat.title }}
+            </span>
           </div>
+
+          <div class="shrink-0 relative z-10 flex items-center gap-3">
+            <span class="glass-badge whitespace-nowrap">
+              {{ cat.count }} 人
+            </span>
+
+            <svg class="w-4 h-4 text-champagne-400/90 transition-transform duration-300" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- 👥 分類內名單 -->
+    <div v-else-if="currentStep === 'guest-list' && selectedCategory" class="space-y-3 py-3">
+      <h2 class="text-center mb-6">
+        <span class="block typo-section-title text-[20px]">
+          {{ selectedCategory }}
+        </span>
+        <span class="block typo-body-muted mt-1">
+          點擊查看座位
+        </span>
+      </h2>
+
+      <div class="glass-list mx-4">
+        <button v-for="(person, pIdx) in currentGuests" :key="pIdx" type="button" class="glass-row group"
+          @click="$emit('open-detail', person)">
+          <div class="glass-refraction" />
+          <div class="glass-sheen" />
+
+          <div class="min-w-0 flex-1 relative z-10">
+            <div class="typo-guest-name text-ink-900 transition-colors truncate">
+              {{ person.name }}
+            </div>
+          </div>
+
+          <div class="shrink-0 relative z-10 flex items-baseline gap-2">
+            <span class="typo-body-muted uppercase text-[10px] tracking-[0.26em]">
+              TABLE
+            </span>
+            <span class="font-serif font-bold text-[22px] leading-none text-champagne-600">
+              {{ person.seatGroup }}
+            </span>
+            <svg class="ml-1 w-4 h-4 text-champagne-400/90 transition-transform duration-300" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </button>
+
+        <div v-if="currentGuests.length === 0" class="text-center py-12">
+          <p class="typo-body-muted text-champagne-800/70">
+            該分類目前尚無資料。
+          </p>
         </div>
       </div>
-      <div v-if="currentGuests.length === 0" class="text-center py-12">
-        <p class="text-champagne-800/60">該類別暫無賓客資料。</p>
-      </div>
     </div>
 
+    <!-- 🧭 fallback -->
     <div v-else class="text-center py-12">
-      <div class="text-4xl mb-2">🤔</div>
-      <p class="text-champagne-800/60">似乎迷路了，請從歡迎頁面重新開始。</p>
+      <p class="typo-body-muted text-champagne-800/70">
+        請從首頁開始操作。
+      </p>
     </div>
-
   </div>
 </template>
 
@@ -89,8 +141,8 @@ const props = defineProps<{
   selectedCategory?: string | null
 }>()
 
-const emit = defineEmits<{
-  (e: 'select-category', categoryTitle: string): void;
+defineEmits<{
+  (e: 'select-category', categoryTitle: string): void
   (e: 'open-detail', person: IPerson): void
 }>()
 
@@ -101,36 +153,237 @@ const currentCategories = computed<ICategory[]>(() => {
 
 const currentGuests = computed<IPerson[]>(() => {
   if (!props.rawData || !props.selectedSide || !props.selectedCategory) return []
-  const category = currentCategories.value.find(cat => cat.title === props.selectedCategory)
+  const category = currentCategories.value.find((cat) => cat.title === props.selectedCategory)
   return category ? category.people : []
 })
 
 const filteredAllPeople = computed<ISearchResult[]>(() => {
   if (!props.searchQuery || !props.rawData) return []
-
   const query = props.searchQuery.toLowerCase().trim()
-  const allResults: ISearchResult[] = [];
+  const results: ISearchResult[] = []
 
-  (['albert', 'amy'] as Array<'albert' | 'amy'>).forEach(sideKey => {
-    const sideName = sideKey === 'albert' ? '男方' : '女方'
-    const categories = props.rawData!.seats[sideKey]?.category || []
-
-    categories.forEach(cat => {
-      cat.people.forEach(person => {
-        if (
-          person.name.toLowerCase().includes(query) ||
-          cat.title.toLowerCase().includes(query)
-        ) {
-          allResults.push({
-            ...person,
-            category: cat.title,
-            sideName: sideName
-          })
-        }
+    ; (['albert', 'amy'] as const).forEach((sideKey) => {
+      const sideName = sideKey === 'albert' ? '男方' : '女方'
+      const categories = props.rawData!.seats[sideKey]?.category || []
+      categories.forEach((cat) => {
+        cat.people.forEach((person) => {
+          if (person.name.toLowerCase().includes(query) || cat.title.toLowerCase().includes(query)) {
+            results.push({ ...person, category: cat.title, sideName })
+          }
+        })
       })
     })
-  })
 
-  return allResults
+  return results
 })
 </script>
+
+<style scoped>
+/* ===== Liquid Glass List (iOS26-ish) ===== */
+
+.glass-list {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.30);
+  backdrop-filter: blur(22px);
+
+  /* iOS-ish: short + soft shadows (avoid big “background block”) */
+  box-shadow:
+    0 10px 26px rgba(75, 51, 16, 0.06),
+    0 2px 6px rgba(75, 51, 16, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.62),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.16);
+}
+
+/* film + soft highlights (keep bottom very light) */
+.glass-list::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(520px 200px at 20% 6%, rgba(246, 232, 203, 0.42), transparent 62%),
+    radial-gradient(520px 200px at 92% 96%, rgba(238, 214, 170, 0.08), transparent 72%),
+    repeating-linear-gradient(0deg,
+      rgba(255, 255, 255, 0.040),
+      rgba(255, 255, 255, 0.040) 1px,
+      rgba(255, 255, 255, 0.00) 2px,
+      rgba(255, 255, 255, 0.00) 4px);
+  opacity: 0.38;
+}
+
+.glass-row {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  text-align: left;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  background: transparent;
+  transition: transform 180ms ease, background 180ms ease, filter 180ms ease;
+}
+
+/* ✅ left accent rail (replaces dot) */
+.glass-row::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(180deg,
+      rgba(214, 182, 120, 0.00),
+      rgba(214, 182, 120, 0.28),
+      rgba(214, 182, 120, 0.00));
+  opacity: 0;
+  transform: translateX(-2px);
+  transition: opacity 220ms ease, transform 220ms ease;
+  pointer-events: none;
+}
+
+/* hairline divider */
+.glass-row::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 0;
+  height: 1px;
+  background: rgba(214, 182, 120, 0.20);
+  transform: scaleY(0.5);
+  transform-origin: bottom;
+  pointer-events: none;
+}
+
+/* last row owns bottom rounding */
+.glass-row:last-child {
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
+}
+
+.glass-row:last-child::after {
+  display: none;
+}
+
+/* Desktop hover */
+@media (hover: hover) and (pointer: fine) {
+  .glass-row:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .glass-row:hover::before {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .glass-row:hover .glass-refraction {
+    opacity: 0.85;
+    transform: translateX(0%);
+  }
+
+  .glass-row:hover .glass-sheen {
+    opacity: 0.28;
+    animation: glassSweep 1.15s ease-in-out 1;
+  }
+
+  .glass-row:hover svg {
+    transform: translateX(2px);
+  }
+}
+
+/* Mobile: use active instead of hover */
+@media (hover: none) and (pointer: coarse) {
+  .glass-row:active {
+    background: rgba(255, 255, 255, 0.20);
+    transform: scale(0.992);
+    filter: saturate(1.03);
+  }
+
+  .glass-row:active::before {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .glass-row:active .glass-refraction {
+    opacity: 0.90;
+    transform: translateX(0%);
+  }
+
+  .glass-row:active .glass-sheen {
+    opacity: 0.28;
+    animation: glassSweep 0.95s ease-in-out 1;
+  }
+
+  .glass-row:active svg {
+    transform: translateX(2px);
+  }
+}
+
+/* keyboard focus */
+.glass-row:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 4px rgba(214, 182, 120, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  border-radius: 18px;
+}
+
+/* refraction band */
+.glass-refraction {
+  pointer-events: none;
+  position: absolute;
+  inset: -1px;
+  border-radius: 16px;
+  background: linear-gradient(110deg,
+      rgba(255, 255, 255, 0.00) 0%,
+      rgba(255, 255, 255, 0.20) 22%,
+      rgba(255, 255, 255, 0.00) 48%,
+      rgba(255, 255, 255, 0.10) 72%,
+      rgba(255, 255, 255, 0.00) 100%);
+  opacity: 0.55;
+  transform: translateX(-18%);
+  transition: opacity 260ms ease, transform 260ms ease;
+}
+
+/* sheen sweep */
+.glass-sheen {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  transform: translateX(-140%);
+  opacity: 0;
+}
+
+@keyframes glassSweep {
+  0% {
+    transform: translateX(-140%);
+  }
+
+  100% {
+    transform: translateX(140%);
+  }
+}
+
+/* glass badge */
+.glass-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(214, 182, 120, 0.26);
+  background: rgba(246, 232, 203, 0.30);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  color: rgba(120, 90, 40, 0.90);
+  font-size: 11px;
+}
+</style>

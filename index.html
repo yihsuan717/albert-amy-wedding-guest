@@ -33,6 +33,15 @@
         --champagne-300: #dcc896;
         --champagne-400: #c5a968;
         --champagne-600: #8c703d;
+
+        --font-sans:
+          'Noto Sans TC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        --font-serif: 'Noto Serif TC', ui-serif, Georgia, 'Times New Roman', serif;
+
+        --ink-900: #3a2f1f;
+        --ink-700: #5a4a32;
+        --ink-500: #7a6a52;
+
         --preloader-duration: 2200ms;
       }
 
@@ -47,13 +56,8 @@
           var(--champagne-50) 40%,
           #f5ebdd 100%
         );
-        font-family:
-          system-ui,
-          -apple-system,
-          BlinkMacSystemFont,
-          'Segoe UI',
-          sans-serif;
-        color: #444;
+        font-family: var(--font-sans);
+        color: var(--ink-700);
       }
 
       /* 整個 preloader 區塊（不在 #app 裡） */
@@ -277,27 +281,28 @@
       }
 
       /* --- 文案區 --- */
-
       .pre-title-sub {
         margin-top: 8px;
-        font-size: 12px;
-        letter-spacing: 0.28em;
+        font-size: 11px;
+        letter-spacing: 0.32em;
         text-transform: uppercase;
         color: rgba(140, 112, 61, 0.85);
+        font-family: var(--font-serif);
       }
 
       .pre-title-main {
         margin: 6px 0 0;
         font-size: 22px;
-        font-weight: 600;
-        letter-spacing: 0.04em;
-        color: #5c4826;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        color: var(--ink-900);
+        font-family: var(--font-serif);
       }
 
       .pre-text {
         margin-top: 8px;
         font-size: 12px;
-        color: #777;
+        color: var(--ink-500);
       }
 
       /* --- 進度條 --- */

@@ -2,7 +2,8 @@
   <!-- 整頁容器，加 relative 讓 fixed breadcrumb 好控制 -->
   <div class="h-full relative">
     <!-- 🧭 固定在最上方的麵包屑列 -->
-    <div class="fixed inset-x-0 top-0 z-40 bg-gradient-to-b from-[#f7f1e6]/98 to-transparent backdrop-blur-sm">
+    <div class="fixed inset-x-0 top-0 z-40 bg-gradient-to-b
+             from-[#f7f1e6]/98 to-transparent backdrop-blur-sm">
       <Breadcrumbs :path="breadcrumbPath" @navigate="handleBreadcrumb" />
     </div>
 
@@ -12,7 +13,7 @@
       <header class="mb-4 mt-1 animate-fade-in">
         <div class="relative mt-1">
           <!-- 左邊放大鏡 -->
-          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+          <div class="absolute inset-y-0 left-0 pl-4 z-10 flex items-center pointer-events-none">
             <svg class="h-5 w-5 text-champagne-500/85" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -21,7 +22,7 @@
 
           <!-- 右邊清除鍵（有字才出現） -->
           <button v-if="searchQuery" type="button" class="absolute inset-y-0 right-0 pr-4 flex items-center
-                   text-gray-400 hover:text-gray-600 transition z-10" @mousedown.prevent.stop="onClearSearch">
+                   text-ink-300 hover:text-ink-700 transition z-10" @mousedown.prevent.stop="onClearSearch">
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
               <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
             </svg>
@@ -30,8 +31,9 @@
           <input v-model="searchQuery" type="text" placeholder="輸入姓名快速搜尋..." class="w-full pl-11 pr-10 py-3
                    bg-white/80 backdrop-blur-xl
                    border border-white/90
-                   rounded-2xl shadow-glass text-gray-700
-                   placeholder-champagne-300/80
+                   rounded-2xl shadow-glass
+                   text-ink-700
+                   placeholder-champagne-300/90
                    focus:outline-none focus:ring-2 focus:ring-champagne-400/60
                    transition-all duration-300" />
         </div>
@@ -43,14 +45,14 @@
         <div v-if="loading" class="flex flex-col items-center justify-center py-20 space-y-3">
           <div class="animate-spin rounded-full h-8 w-8
                    border-2 border-champagne-200 border-t-champagne-600" />
-          <span class="text-xs text-champagne-500 tracking-widest">
+          <span class="typo-body-muted tracking-[0.24em] text-champagne-500">
             資料解密中...
           </span>
         </div>
 
         <!-- error -->
         <div v-else-if="!rawData">
-          <p class="text-center text-xs text-red-500">
+          <p class="text-center typo-body-muted text-red-500">
             資料載入失敗，請稍後再試。
           </p>
         </div>
@@ -61,8 +63,8 @@
           @open-detail="openModalAndSyncRoute" />
       </main>
 
-      <!-- 詳情 Modal -->
-      <GuestDetailModal :person="selectedPerson" @close="closeModalAndSyncRoute" />
+      <!-- 詳情 Sheet -->
+      <GuestDetailSheet :person="selectedPerson" @close="closeModalAndSyncRoute" />
     </div>
   </div>
 </template>
@@ -72,7 +74,7 @@ import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Breadcrumbs from '@/components/Breadcrumbs.vue'
 import GuestList from '@/components/GuestList.vue'
-import GuestDetailModal from '@/components/GuestDetailModal.vue'
+import GuestDetailSheet from '@/components/GuestDetailSheet.vue'
 import { useSeatingData } from '@/composables/useSeatingData'
 import type { IPerson, ISeatingData } from '@/types/seating'
 import type { PathItem, Step } from '@/types'
@@ -155,28 +157,6 @@ const handleBreadcrumb = (target: PathItem) => {
     })
     selectedPerson.value = null
   }
-
-
-
-  // if (target.step === 'welcome') {
-  //   router.push({ name: 'welcome' })
-  // } else if (target.step === 'side-select') {
-  //   router.push({ name: 'side-select' })
-  // } else if (target.step === 'category-list' && target.side) {
-  //   router.push({
-  //     name: 'category-list',
-  //     params: { side: target.side },
-  //   })
-  // } else if (
-  //   target.step === 'guest-list' &&
-  //   target.side &&
-  //   target.category
-  // ) {
-  //   router.push({
-  //     name: 'guest-list',
-  //     params: { side: target.side, category: target.category },
-  //   })
-  // }
 }
 
 const onClearSearch = () => {

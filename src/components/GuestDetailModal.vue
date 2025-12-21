@@ -17,7 +17,7 @@
                    flex items-center justify-center
                    hover:bg-white active:scale-95 transition" @click.stop="sharePerson">
             <!-- iOS 風格 share icon（箭頭往上） -->
-            <svg class="w-5 h-5 text-gray-700" viewBox="0 0 24 24" fill="none">
+            <svg class="w-5 h-5 text-ink-700" viewBox="0 0 24 24" fill="none">
               <path d="M12 16V4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
               <path d="M8 8l4-4 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round" />
@@ -30,23 +30,22 @@
           <button type="button" class="w-10 h-10 rounded-full bg-white/85 backdrop-blur-md shadow
                    flex items-center justify-center
                    hover:bg-white active:scale-95 transition" @click="handleClose">
-            <svg class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="none">
+            <svg class="w-5 h-5 text-ink-500" viewBox="0 0 24 24" fill="none">
               <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
             </svg>
           </button>
         </div>
 
         <!-- Header：名字 ＋ TableNo -->
-        <header class="relative px-6 pt-8 pb-4 text-center shrink-0 border-b border-champagne-100/70">
+        <header class="relative px-6 pt-9 pb-4 text-center shrink-0 border-b border-champagne-100/70">
           <!-- 淡淡光暈 -->
           <div class="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2
                    w-52 h-52 bg-champagne-100/70 blur-3xl rounded-full opacity-70" />
 
-          <h3 class="relative z-10 text-[26px] leading-tight font-serif font-bold
-                   text-gray-900">
+          <h3 class="relative z-10 typo-step-title font-bold">
             {{ person.name }}
           </h3>
-          <p class="relative z-10 mt-1 text-[13px] text-gray-500">
+          <p class="relative z-10 mt-1 typo-body-muted">
             歡迎您的蒞臨
           </p>
 
@@ -56,11 +55,10 @@
                      shadow-inner-glow bg-white/80">
               <div class="rounded-xl border border-champagne-100/90
                        bg-champagne-50/85 px-7 py-2.5">
-                <span class="block mb-1 text-[10px] tracking-[0.24em] uppercase
-                         text-champagne-500">
+                <span class="block typo-brand-tag mb-1 text-center tracking-[0.26em]">
                   TABLE&nbsp;NO.
                 </span>
-                <span class="block text-[38px] leading-none font-serif font-bold text-champagne-600">
+                <span class="block font-serif font-bold text-[36px] leading-none text-champagne-600">
                   {{ person.seatGroup }}
                 </span>
               </div>
@@ -70,17 +68,20 @@
 
         <!-- 內容區：座位圖可滾動 -->
         <section class="px-4 pt-3 pb-2 overflow-y-auto custom-scroll scroll-fade">
-          <p class="mb-2 ml-1 text-xs text-gray-400">
+          <p class="mb-2 ml-1 typo-body-muted text-champagne-600 text-[11px]">
             ● 會場位置示意圖
           </p>
 
           <SeatMap :highlightGroup="person.seatGroup" />
+          <!-- <SeatMapCanvas :highlightGroup="person.seatGroup" /> -->
         </section>
 
         <!-- Footer -->
         <footer class="shrink-0 bg-champagne-50/80 border-t border-champagne-100/90
-                 py-3 text-center text-xs text-champagne-600">
-          請洽現場接待人員引導為準
+                 py-3 text-center">
+          <p class="typo-body-muted text-champagne-600 text-[11px]">
+            請洽現場接待人員引導為準
+          </p>
         </footer>
       </div>
     </div>
@@ -89,6 +90,7 @@
 
 <script setup lang="ts">
 import SeatMap from '@/components/SeatMap.vue'
+import SeatMapCanvas from './SeatMapCanvas.vue'
 import type { IPerson } from '@/types/seating'
 
 const props = defineProps<{
@@ -100,7 +102,6 @@ const emit = defineEmits<{
 }>()
 
 const handleClose = () => {
-  console.log('handleClose')
   emit('close')
 }
 
