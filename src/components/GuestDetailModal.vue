@@ -90,7 +90,6 @@
 
 <script setup lang="ts">
 import SeatMap from '@/components/SeatMap.vue'
-import SeatMapCanvas from './SeatMapCanvas.vue'
 import type { IPerson } from '@/types/seating'
 
 const props = defineProps<{

@@ -64,7 +64,8 @@
       </main>
 
       <!-- 詳情 Sheet -->
-      <GuestDetailSheet :person="selectedPerson" @close="closeModalAndSyncRoute" />
+      <!-- <GuestDetailSheet :person="selectedPerson" @close="closeModalAndSyncRoute" /> -->
+      <GuestDetailModal :person="selectedPerson" @close="closeModalAndSyncRoute" />
     </div>
   </div>
 </template>
@@ -74,7 +75,8 @@ import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Breadcrumbs from '@/components/Breadcrumbs.vue'
 import GuestList from '@/components/GuestList.vue'
-import GuestDetailSheet from '@/components/GuestDetailSheet.vue'
+// import GuestDetailSheet from '@/components/GuestDetailSheet.vue'
+import GuestDetailModal from '@/components/GuestDetailModal.vue'
 import { useSeatingData } from '@/composables/useSeatingData'
 import type { IPerson, ISeatingData } from '@/types/seating'
 import type { PathItem, Step } from '@/types'
